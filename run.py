@@ -1,7 +1,12 @@
-from http.server import HTTPServer
-from db import init_db
+import sys
+sys.path.append('src')
 
-def run(server_class=HTTPServer, handler_class=''):
+from http.server import HTTPServer
+
+from routes import AuthRoutes
+from utils import init_db
+
+def run(server_class=HTTPServer, handler_class=AuthRoutes):
     server_address = ('', 8000)
     httpd = server_class(server_address, handler_class)
     print("Starting server on port 8000...")
