@@ -10,25 +10,7 @@ Connect to the API using Postman or Thunder Client
 
 ## API Endpoints
 
-- <code>POST</code> <code><b>/sessions/login</b></code>
-
-	> This route allows users to log in with their email address and password
-
-	##### Parameters
-
-	| name | type | data type | description |
-	|-----------|-----------|-------------------------|-----------------------------------------------------------------------|
-	| email | required | string | email |
-	| password | required | string | password |
-
-	##### Response
-	| http code | content-type | response |
-	|---------------|-----------------------------------|----------------------------------------------------------------------------|
-	| `200` | `application/json` | `{"status":"200", "message":"Login successful", "token": "TOKEN_HERE"}` |
-	| `401` | `application/json` | `{"status":"401", "message":"Incorrect password"}` |
-	| `404` | `application/json` | `{"status":"500", "message":"User not found"}` |
-
-- <code>POST</code> <code><b>/sessions/register</b></code>
+- `POST` **`/sessions/register`**
 
 	> This route allows a new user to register
 
@@ -48,3 +30,21 @@ Connect to the API using Postman or Thunder Client
 	| `201` | `application/json` | `{"status":"201", "message":"User created successfully"}` |
 	| `400` | `application/json` | `{"status":"401", "message":"Bad Request"}` |
 	| `409` | `application/json` | `{"status":"409", "message":"Email already exists"}` |
+
+- `POST` **`/sessions/login`**
+
+	> This route allows users to log in with their email address and password
+
+	##### Parameters
+
+	| name | type | data type | description |
+	|-----------|-----------|-------------------------|-----------------------------------------------------------------------|
+	| email | required | string | email |
+	| password | required | string | password |
+
+	##### Response
+	| http code | content-type | response |
+	|---------------|-----------------------------------|----------------------------------------------------------------------------|
+	| `200` | `application/json` | `{"status":"200", "message":"Login successful", "token": "TOKEN_HERE"}` |
+	| `401` | `application/json` | `{"status":"401", "message":"Incorrect password"}` |
+	| `404` | `application/json` | `{"status":"500", "message":"User not found"}` |
