@@ -6,7 +6,13 @@ An open-source mini project api coding in native Python3 to test and build proje
 
 ## Usage
 
-Connect to the API using Postman or Thunder Client
+- Create a `.env` file in the src of your project and insert
+your key/value pairs in the following format :
+
+```sh
+[DATABASE]
+DATABASE_URL=mysql+mysqlconnector://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:3306/{DB_NAME}
+```
 
 ## API Endpoints
 
