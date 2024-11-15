@@ -66,4 +66,11 @@ class UserController:
         if not bcrypt.checkpw(password.encode('utf-8'), user.password.encode('utf-8')):
             return 401, {"message": "Incorrect password"}
 
-        return 200, {"message": "Login successful", "token": UserController.generate_token()}
+        user_data = {
+            "uuid": user.uuid, 
+            "firstname": user.firstname, 
+            "lastname": user.lastname, 
+            "email": user.email
+        }
+
+        return 200, {"user": user_data, "token": UserController.generate_token()}

@@ -2,6 +2,25 @@ import json
 from .service import UserController
 from utils import get_db_session, RequestHandler, logger
 
+SESSIONS = {}
+
+def get_current_user(handler):
+    auth_header = handler.headers.get("Authorization")
+    if not auth_header or not auth_header.startswith("Bearer "):
+        RequestHandler._send_response(handler, 401, {"error": "Token is missing or invalid"})
+        return
+
+    token = auth_header.split(" ")[1]
+
+    # Check whether token is valid
+    user = SESSIONS.get(token)
+    if not user:
+        RequestHandler._send_response(handler, 401, {"error": "Token is invalid or expired"})
+        return
+
+    # Return current user
+    RequestHandler._send_response(handler, 200, {"user": user})
+
 
 def save_user(handler):
     content_length = int(handler.headers["Content-Length"])
@@ -21,7 +40,7 @@ def save_user(handler):
     status, response = user_controller.handler_create_user(session)
 
     # Return response data and status
-    RequestHandler._send_response(handler, status, response)       
+    RequestHandler._send_response(handler, status, response)   
 
 def authenticate_user(handler):
     content_length = int(handler.headers["Content-Length"])
@@ -36,6 +55,27 @@ def authenticate_user(handler):
 
     # Call authenticate_user method
     status, response = UserController.handler_authenticate_user(email, password, db_session)
+    if status == 200:
+        token = response["token"]
+        user_data = response["user"]
+
+        # Add user data and token in SESSIONS
+        SESSIONS[token] = user_data
 
     # Return response data and status
     RequestHandler._send_response(handler, status, response)
+
+def logout(handler):
+    auth_header = handler.headers.get("Authorization")
+    if not auth_header or not auth_header.startswith("Bearer "):
+        RequestHandler._send_response(handler, 401, {"error": "Token is missing or invalid"})
+        return
+
+    token = auth_header.split(" ")[1]
+
+    # Remove token from SESSIONS
+    if token in SESSIONS:
+        del SESSIONS[token]
+        RequestHandler._send_response(handler, 200, {"message": "User logged out successfully"})
+    else:
+        RequestHandler._send_response(handler, 401, {"error": "Token is invalid or expired"})

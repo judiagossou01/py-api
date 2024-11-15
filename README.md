@@ -51,6 +51,36 @@ DATABASE_URL=mysql+mysqlconnector://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:3306/{DB_N
 	##### Response
 	| http code | content-type | response |
 	|---------------|-----------------------------------|----------------------------------------------------------------------------|
-	| `200` | `application/json` | `{"status":"200", "message":"Login successful", "token": "TOKEN_HERE"}` |
+	| `200` | `application/json` | `{"status":"200", "user":"USER_DATA_HERE", "token":"TOKEN_HERE"}` |
 	| `401` | `application/json` | `{"status":"401", "message":"Incorrect password"}` |
 	| `404` | `application/json` | `{"status":"500", "message":"User not found"}` |
+
+- `GET` **`/sessions/me`**
+
+	> This route retrieves the user's session data
+
+	##### Parameters
+
+	No parameters
+
+	##### Response
+	| http code | content-type | response |
+	|---------------|-----------------------------------|----------------------------------------------------------------------------|
+	| `200` | `application/json` | `{"status":"200", "user":"USER_DATA_HERE"}` |
+	| `401` | `application/json` | `{"status":"401", "message":"Token is missing or invalid"}` |
+	| `401` | `application/json` | `{"status":"401", "message":"Token is invalid or expired"}` |
+
+- `GET` **`/sessions/logout`**
+
+	> This route disconnects the user from his current session
+
+	##### Parameters
+
+	No parameters
+
+	##### Response
+	| http code | content-type | response |
+	|---------------|-----------------------------------|----------------------------------------------------------------------------|
+	| `200` | `application/json` | `{"status":"200", "message":"User logged out successfully"}` |
+	| `401` | `application/json` | `{"status":"401", "message":"Token is missing or invalid"}` |
+	| `401` | `application/json` | `{"status":"401", "message":"Token is invalid or expired"}` |
