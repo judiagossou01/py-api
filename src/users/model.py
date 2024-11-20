@@ -2,10 +2,7 @@ import uuid
 import datetime
 from sqlalchemy import Column, Integer, String, DateTime
 from sqlalchemy.dialects.mysql import CHAR
-from sqlalchemy.ext.declarative import declarative_base
-
-
-Base = declarative_base()
+from utils.config import Base
 
 class User(Base):
     __tablename__ = 'users';

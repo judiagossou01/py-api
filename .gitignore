@@ -31,3 +31,6 @@ pyvenv.cfg
 env/
 venv/
 ENV/
+
+# Logging
+logs/
