@@ -12,6 +12,11 @@ your key/value pairs in the following format :
 ```sh
 [DATABASE]
 DATABASE_URL=mysql+mysqlconnector://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:3306/{DB_NAME}
+
+[LOGGING]
+SQLALCHEMY_LOG_FILE=logs/sqlalchemy_logs.log
+HTTP_LOG_FILE=logs/http_logs.log
+ERROR_LOG_FILE=logs/error_logs.log
 ```
 
 ## API Endpoints
