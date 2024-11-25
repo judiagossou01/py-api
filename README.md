@@ -6,7 +6,7 @@ An open-source mini project api coding in native Python3 to test and build proje
 
 ## Usage
 
-- Create a `.env` file in the src of your project and insert
+- Create a `.env` file in the `src` of your project and insert
 your key/value pairs in the following format :
 
 ```sh
@@ -14,10 +14,17 @@ your key/value pairs in the following format :
 DATABASE_URL=mysql+mysqlconnector://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:3306/{DB_NAME}
 
 [LOGGING]
-SQLALCHEMY_LOG_FILE=logs/sqlalchemy_logs.log
-HTTP_LOG_FILE=logs/http_logs.log
-ERROR_LOG_FILE=logs/error_logs.log
+APP_LOG_FILE=choose-your-path
+SQLALCHEMY_LOG_FILE=choose-your-path
+
+[ENVIRONMENT]
+APP_ENV=""
 ```
+
+- Define the paths for the application log file (`APP_LOG_FILE`) and the SQLAlchemy 
+log file (`SQLALCHEMY_LOG_FILE`) by replacing choose-your-path with your desired locations.
+
+- Assign the default value `"locale"` to the `APP_ENV` variable in the `[ENVIRONMENT]` section of the `.env` file.
 
 ## API Endpoints
 

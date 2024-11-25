@@ -1,33 +1,64 @@
+import traceback
 from http.server import BaseHTTPRequestHandler
 
 from users import get_current_user, save_user, authenticate_user, logout
-from utils import setup
+from utils import initialize_logger, log_message
 
-log = setup()
+# Initialize logs configuration
+log = initialize_logger()
 
 class MyHTTPRequestHandler(BaseHTTPRequestHandler):
     # POST_REQUEST
     def do_POST(self):
-        if self.path == "/sessions/register":
-            save_user(self)
-        elif self.path == "/sessions/login":
-            authenticate_user(self)
-        else:
-            self.not_found()
+        try:
+            if self.path == "/sessions/register":
+                req = save_user(self)
+            elif self.path == "/sessions/login":
+                req = authenticate_user(self)
+            else:
+                req = self.not_found()
+        except Exception as e:
+            error_details = traceback.format_exc()
+            log.error(f"Server Error: {e}, Path: {self.path}\nDetails:\n{error_details}")
 
-        log.info(f'{self.client_address[0]} - - "POST {self.path}" 201')
+        log_message(
+            log,
+            "PY-API",
+            extra={
+                "client_ip": self.client_address[0],
+                "method": self.command,
+                "path": self.path,
+                "protocol": self.request_version,
+                "status": req,
+            }
+        )
     
 
     # GET_REQUEST
     def do_GET(self):
-        if self.path == "/sessions/me":
-            get_current_user(self);
-        elif self.path == "/sessions/logout":
-            logout(self);
-        else:
-            self.not_found()
+        try:
+            if self.path == "/sessions/me":
+                req = get_current_user(self);
+            elif self.path == "/sessions/logout":
+                req = logout(self);
+            else:
+                req = self.not_found()
+        except Exception as e:
+            error_details = traceback.format_exc()
+            log.error(f"Server Error: {e}, Path: {self.path}\nDetails:\n{error_details}")
 
-        log.info(f'{self.client_address[0]} - - "GET {self.path}" 200')
+        log_message(
+            log,
+            "PY-API",
+            extra={
+                "client_ip": self.client_address[0],
+                "method": self.command,
+                "path": self.path,
+                "protocol": self.request_version,
+                "status": req,
+            }
+        )
+
     
     # BAD_REQUEST
     def not_found(self):
@@ -36,4 +67,4 @@ class MyHTTPRequestHandler(BaseHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(b'{"error": "Resource Not Found"}')
 
-        log.info(f'{self.client_address[0]} - - "GET {self.path}" 400S')
+        return 404

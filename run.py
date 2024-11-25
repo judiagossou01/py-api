@@ -4,7 +4,7 @@ sys.path.append('src')
 from http.server import HTTPServer
 from art import text2art
 
-from utils import init_db, setup
+from src.utils import init_db
 from src import MyHTTPRequestHandler
 
 def run(server_class=HTTPServer, handler_class=MyHTTPRequestHandler):
@@ -19,9 +19,6 @@ def api_name():
 
 
 if __name__ == "__main__":
-    # Logs configuration
-    # log = setup()
-    
     print("Starting application...")
     
     # Database initialization
