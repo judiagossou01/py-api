@@ -6,6 +6,8 @@ An open-source mini project api coding in native Python3 to test and build proje
 
 ## Usage
 
+- Run the `pip install -r requirements.txt` command to install the necessary dependencies.
+
 - Create a `.env` file in the `src` of your project and insert
 your key/value pairs in the following format :
 
