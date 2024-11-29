@@ -3,8 +3,8 @@ bcrypt==4.2.1
 colorama==0.4.6
 colorlog==6.9.0
 fire==0.7.0
-mysql-connector-python==9.1.0
 pyfiglet==1.0.2
+PyMySQL==1.1.1
 python-dotenv==1.0.1
 SQLAlchemy==2.0.36
 termcolor==2.5.0

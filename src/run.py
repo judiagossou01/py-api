@@ -1,11 +1,13 @@
 import sys
-sys.path.append('src')
+import os
 
 from http.server import HTTPServer
 from art import text2art
 
-from src.utils import init_db
-from src import MyHTTPRequestHandler
+from app.utils import init_db
+from app import MyHTTPRequestHandler
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), 'src')))
 
 def run(server_class=HTTPServer, handler_class=MyHTTPRequestHandler):
     server_address = ('', 8000)

@@ -1,14 +1,29 @@
 import traceback
 from http.server import BaseHTTPRequestHandler
 
-from users import get_current_user, save_user, authenticate_user, logout
-from utils import initialize_logger, log_message
+from .users import get_current_user, save_user, authenticate_user, logout
+from .utils import initialize_logger, log_message
 
 # Initialize logs configuration
 log = initialize_logger()
 
 class MyHTTPRequestHandler(BaseHTTPRequestHandler):
-    # POST_REQUEST
+    
+    # Set CORS headers
+    def add_cors_headers(self):
+        self.send_header("Access-Control-Allow-Origin", "*")
+        self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS") 
+        self.send_header("Access-Control-Allow-Headers", "Content-Type, Authorization")
+
+    # Set OPTIONS request
+    def do_OPTIONS(self):
+        self.send_response(200)
+        self.add_cors_headers()
+        self.end_headers()
+
+
+    
+    # Set POST request
     def do_POST(self):
         try:
             if self.path == "/sessions/register":
@@ -21,6 +36,7 @@ class MyHTTPRequestHandler(BaseHTTPRequestHandler):
             error_details = traceback.format_exc()
             log.error(f"Server Error: {e}, Path: {self.path}\nDetails:\n{error_details}")
 
+        self.add_cors_headers()
         log_message(
             log,
             "PY-API",
@@ -34,7 +50,7 @@ class MyHTTPRequestHandler(BaseHTTPRequestHandler):
         )
     
 
-    # GET_REQUEST
+    # Set GET request
     def do_GET(self):
         try:
             if self.path == "/sessions/me":
@@ -47,6 +63,7 @@ class MyHTTPRequestHandler(BaseHTTPRequestHandler):
             error_details = traceback.format_exc()
             log.error(f"Server Error: {e}, Path: {self.path}\nDetails:\n{error_details}")
 
+        self.add_cors_headers()
         log_message(
             log,
             "PY-API",
@@ -60,7 +77,7 @@ class MyHTTPRequestHandler(BaseHTTPRequestHandler):
         )
 
     
-    # BAD_REQUEST
+    # Set BAD request
     def not_found(self):
         self.send_response(404)
         self.send_header("Content-type", "application/json")

@@ -13,7 +13,7 @@ your key/value pairs in the following format :
 
 ```sh
 [DATABASE]
-DATABASE_URL=mysql+mysqlconnector://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:3306/{DB_NAME}
+DATABASE_URL=mysql+pymysql://{username}:{password}@{host}:3306/{dbname}
 
 [LOGGING]
 APP_LOG_FILE=choose-your-path
@@ -22,9 +22,6 @@ SQLALCHEMY_LOG_FILE=choose-your-path
 [ENVIRONMENT]
 APP_ENV=""
 ```
-
-- Define the paths for the application log file (`APP_LOG_FILE`) and the SQLAlchemy 
-log file (`SQLALCHEMY_LOG_FILE`) by replacing choose-your-path with your desired locations.
 
 - Assign the default value `"locale"` to the `APP_ENV` variable in the `[ENVIRONMENT]` section of the `.env` file.
 

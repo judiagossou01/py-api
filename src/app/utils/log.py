@@ -5,7 +5,7 @@ import colorlog
 from logging.handlers import RotatingFileHandler
 from dotenv import load_dotenv
 
-load_dotenv(dotenv_path="src/.env")
+load_dotenv()
 
 def locale_setup():
     """
@@ -48,8 +48,8 @@ def prod_setup():
         os.makedirs(log_dir)
 
     # Logs files
-    log_file=os.getenv("APP_LOG_FILE", "logs/app.log")
-    sqlalchemy_log_file = os.getenv("SQLALCHEMY_LOG_FILE", "logs/sqlalchemy_logs.log")
+    log_file=os.getenv("APP_LOG_FILE")
+    sqlalchemy_log_file = os.getenv("SQLALCHEMY_LOG_FILE")
 
     file_formatter = logging.Formatter(
         '[%(asctime)s] - [%(levelname)s] "%(method)s %(path)s %(protocol)s" %(status)s -',

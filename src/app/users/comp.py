@@ -1,6 +1,6 @@
 import json
 from .service import UserController
-from utils import get_db_session, RequestHandler
+from app.utils import get_db_session, RequestHandler
 
 SESSIONS = {}
 
