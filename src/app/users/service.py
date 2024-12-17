@@ -34,10 +34,14 @@ class UserController:
         self.email = email
         self.password = password
 
+    @staticmethod
+    def generate_token():
+        return secrets.token_hex(16)
+
     def handler_create_user(self, db: Session):
         existing_user = db.query(User).filter(User.email == self.email).first()
         if existing_user:
-            raise ValueError("A user with this email address already exists.")
+            return 409, {"message": "Email already exists"}
 
         hashed_password = bcrypt.hashpw(self.password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
 
@@ -52,10 +56,21 @@ class UserController:
         db.commit()
         db.refresh(user)
 
-        return user
+        return 201, {"message": "User created successfully"}
 
-    def handler_authenticate_user(self, email, password):
-        pass
+    def handler_authenticate_user(email, password, db: Session):
+        user = db.query(User).filter(User.email == email).first()
+        if not user:
+            return 404, {"message": "User not found"}
+        
+        if not bcrypt.checkpw(password.encode('utf-8'), user.password.encode('utf-8')):
+            return 401, {"message": "Incorrect password"}
 
-    def generate_token():
-        return secrets.token_hex(16)
+        user_data = {
+            "uuid": user.uuid, 
+            "firstname": user.firstname, 
+            "lastname": user.lastname, 
+            "email": user.email
+        }
+
+        return 200, {"user": user_data, "token": UserController.generate_token()}

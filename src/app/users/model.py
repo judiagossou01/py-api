@@ -2,13 +2,10 @@ import uuid
 import datetime
 from sqlalchemy import Column, Integer, String, DateTime
 from sqlalchemy.dialects.mysql import CHAR
-from sqlalchemy.ext.declarative import declarative_base
-
-
-Base = declarative_base()
+from app.utils import Base
 
 class User(Base):
-    __tablename__ = 'users';
+    __tablename__ = 'users'
 
     id = Column(Integer, primary_key=True)
     uuid = Column(CHAR(36), default=lambda: str(uuid.uuid4()), unique=True, nullable=False)
